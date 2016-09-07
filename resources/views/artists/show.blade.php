@@ -17,7 +17,7 @@
         <table class="table release">
             <caption>
                 <h2>
-                    <img src="/storage/artwork/{{ $album->firstMedia('thumbnail')->basename }}" width="70" height="70" />
+                    <img src="{{ route('imagecache', ['thumb', $album->artwork ]) }}" width="70" height="70" />
                     {{ $album->name }} <small>{{ $album->release_date->format('Y') }}</small>
                 </h2>
             </caption>

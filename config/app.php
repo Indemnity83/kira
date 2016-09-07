@@ -166,8 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-
-        //
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -178,10 +177,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        /*
-         * Third Party Service Providers...
-         */
-        Plank\Mediable\MediableServiceProvider::class,
     ],
 
     /*
@@ -228,7 +223,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'MediaUploader' => Plank\Mediable\MediaUploaderFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

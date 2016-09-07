@@ -8,7 +8,7 @@
                     <h1>New Artist</h1>
                 </div>
 
-                <p class="alert alert-info">Adding artist into <strong>/media/??/</strong></p>
+                <p class="alert alert-info">Adding artist into <strong>{{ config('filesystems.disks.media.root') }}/??/</strong></p>
 
                 <add-artist></add-artist>
             </div>

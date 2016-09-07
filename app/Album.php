@@ -9,8 +9,6 @@ use Plank\Mediable\Mediable;
 class Album extends Model
 {
 
-    use Mediable;
-
     public $fillable = [
         'spotify_id',
         'name',
@@ -46,6 +44,11 @@ class Album extends Model
     public function tracks()
     {
         return $this->hasMany(Track::class);
+    }
+
+    public function getArtworkAttribute()
+    {
+        return $this->spotify_id;
     }
 
 }

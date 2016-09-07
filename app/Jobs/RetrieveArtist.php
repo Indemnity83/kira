@@ -8,25 +8,29 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Plank\Mediable\MediaUploaderFacade as Media;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use SpotifyWebAPI\SpotifyWebAPI;
 
 class RetrieveArtist implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
+
     /**
      * @var Artist
      */
     private $artist_id;
+
     /**
-     * @var null
+     * @var location on disk
      */
     private $location;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $artist_id
+     * @param null $location
      */
     public function __construct($artist_id, $location = null)
     {
@@ -41,6 +45,7 @@ class RetrieveArtist implements ShouldQueue
      */
     public function handle()
     {
+        // TODO: move the spotify API stuff into a service provider for global uses
         $spotify = new SpotifyWebAPI();
         $spotify->setReturnAssoc(true);
 
@@ -69,10 +74,8 @@ class RetrieveArtist implements ShouldQueue
                 'release_date' => $this->parseDate($result['release_date'], $result['release_date_precision']),
             ]);
 
-            $artwork = Media::fromSource($result['images'][0]['url'])
-                ->toDestination('public', 'artwork')
-                ->upload();
-            $my_album->attachMedia($artwork, 'thumbnail');
+            $img = Image::make($album['images'][0]['url']);
+            Storage::disk('local')->put($my_album->artwork, $img->stream());
 
             // Create Tracks
             foreach ($result['tracks']['items'] as $track) {
