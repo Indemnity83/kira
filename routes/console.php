@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +12,16 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('media:root {path : The root path for media library}', function() {
+
+    $path = $this->argument('path');
+
+    file_put_contents(base_path('.env'), str_replace(
+        'MEDIA_ROOT='.env('MEDIA_ROOT'),
+        'MEDIA_ROOT='.$path,
+        file_get_contents(base_path('.env'))
+    ));
+
+    $this->info("Media root [$path] set successfully.");
+
+})->describe('Set the root path for the media library');
