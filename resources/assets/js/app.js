@@ -14,6 +14,7 @@ require('./bootstrap');
  */
 
 Vue.component('add-artist', require('./components/Add.vue'));
+Vue.component('artists', require('./components/Artists.vue'));
 
 const app = new Vue({
     el: 'body'

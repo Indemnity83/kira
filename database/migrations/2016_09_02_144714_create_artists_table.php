@@ -18,6 +18,7 @@ class CreateArtistsTable extends Migration
             $table->string('spotify_id')->nullable();
             $table->string('name')->nullable();
             $table->string('location')->nullable();
+            $table->boolean('updating')->default(false);
             $table->timestamps();
         });
     }

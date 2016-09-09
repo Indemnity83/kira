@@ -3,6 +3,11 @@
 namespace App\Jobs;
 
 use App\Artist;
+use App\Events\AlbumCreated;
+use App\Events\AlbumUpdated;
+use App\Events\ArtistCreated;
+use App\Events\ArtistUpdated;
+use App\Events\TrackCreated;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -56,7 +61,9 @@ class RetrieveArtist implements ShouldQueue
             'spotify_id' => $result['id'],
             'name' => $result['name'],
             'location' => $this->location ?: $result['name'],
+            'updating' => true,
         ]);
+        event(new ArtistCreated($artist));
         $artist->initializeStorage();
 
         // Get Artist Albums
@@ -73,21 +80,29 @@ class RetrieveArtist implements ShouldQueue
                 'name' => $result['name'],
                 'release_date' => $this->parseDate($result['release_date'], $result['release_date_precision']),
             ]);
-
             $img = Image::make($album['images'][0]['url']);
             Storage::disk('local')->put($my_album->artwork, $img->stream());
+            event(new AlbumCreated($my_album));
 
             // Create Tracks
             foreach ($result['tracks']['items'] as $track) {
-                $my_album->tracks()->create([
+                $my_track = $my_album->tracks()->create([
                     'spotify_id' => $track['id'],
                     'disc_number' => $track['disc_number'],
                     'track_number' => $track['track_number'],
                     'duration_ms' => $track['duration_ms'],
                     'name' => $track['name'],
                 ]);
+                event(new TrackCreated($my_track));
             }
+
+            event(new AlbumUpdated($my_album));
         }
+
+        $artist->update([
+            'updating' => false
+        ]);
+        event(new ArtistUpdated($artist));
     }
 
     private function parseDate($release_date, $precision)

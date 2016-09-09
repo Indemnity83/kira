@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "83a81f517fd245f997fe59d2305d4f22",
-    "content-hash": "5cdb236da8747f2a3e4ea149b62f2467",
+    "hash": "705220bb2afd1f16a42e048a9887f32a",
+    "content-hash": "248b201b2061c9d9dcaaa0af0794fcbd",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1485,6 +1485,50 @@
                 "shell"
             ],
             "time": "2016-03-09 05:03:14"
+        },
+        {
+            "name": "pusher/pusher-php-server",
+            "version": "v2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/pusher-http-php.git",
+                "reference": "cdc11530c6f97eab76850d8ead6c513eeeccc37a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/cdc11530c6f97eab76850d8ead6c513eeeccc37a",
+                "reference": "cdc11530c6f97eab76850d8ead6c513eeeccc37a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for interacting with the Pusher REST API",
+            "homepage": "https://github.com/pusher/pusher-php-server",
+            "keywords": [
+                "events",
+                "php-pusher-server",
+                "publish",
+                "pusher",
+                "realtime",
+                "rest",
+                "trigger"
+            ],
+            "time": "2016-08-23 09:07:29"
         },
         {
             "name": "ramsey/uuid",

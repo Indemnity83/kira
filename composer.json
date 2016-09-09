@@ -12,7 +12,8 @@
         "codesleeve/laravel-stapler": "^1.0",
         "pda/pheanstalk": "^3.1",
         "intervention/image": "^2.3",
-        "intervention/imagecache": "^2.3"
+        "intervention/imagecache": "^2.3",
+        "pusher/pusher-php-server": "^2.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

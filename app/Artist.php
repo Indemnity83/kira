@@ -12,6 +12,11 @@ class Artist extends Model
         'spotify_id',
         'name',
         'location',
+        'updating',
+    ];
+
+    public $casts = [
+        'updating' => 'boolean',
     ];
 
     /**
