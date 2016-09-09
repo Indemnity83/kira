@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+        App\Providers\SpotifyServiceProvider::class,
 
         /*
          * Application Service Providers...

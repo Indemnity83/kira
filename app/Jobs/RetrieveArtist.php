@@ -8,6 +8,7 @@ use App\Events\AlbumUpdated;
 use App\Events\ArtistCreated;
 use App\Events\ArtistUpdated;
 use App\Events\TrackCreated;
+use App\Facades\Spotify;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -15,7 +16,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use SpotifyWebAPI\SpotifyWebAPI;
 
 class RetrieveArtist implements ShouldQueue
 {
@@ -50,11 +50,7 @@ class RetrieveArtist implements ShouldQueue
      */
     public function handle()
     {
-        // TODO: move the spotify API stuff into a service provider for global uses
-        $spotify = new SpotifyWebAPI();
-        $spotify->setReturnAssoc(true);
-
-        $result = $spotify->getArtist($this->artist_id);
+        $result = Spotify::getArtist($this->artist_id);
 
         // Create the Artist
         $artist = Artist::create([
@@ -67,13 +63,13 @@ class RetrieveArtist implements ShouldQueue
         $artist->initializeStorage();
 
         // Get Artist Albums
-        $artist_albums = $spotify->getArtistAlbums($this->artist_id, config('spotify.album_options'));
+        $artist_albums = Spotify::getArtistAlbums($this->artist_id, config('spotify.album_options'));
         $album_ids = array_column($artist_albums['items'], 'id');
-        $albums = $spotify->getAlbums($album_ids);
+        $albums = Spotify::getAlbums($album_ids);
 
         // Create Albums
         foreach ($albums['albums'] as $album) {
-            $result = $spotify->getAlbum($album['id']);
+            $result = Spotify::getAlbum($album['id']);
 
             $my_album = $artist->albums()->create([
                 'spotify_id' => $result['id'],
